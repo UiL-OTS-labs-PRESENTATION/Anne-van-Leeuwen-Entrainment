@@ -1,0 +1,72 @@
+# Set up a vector of .wav file names using the length
+include_once "Entrainment_parameters.pcl";
+include_once "Entrainment_subroutines.pcl";
+
+open_stimulus_data_file();
+
+if(!all_sound_files_exist()) then
+	exit("Not all sound files could be found! (See terminal for details)");
+end;
+
+if(RANDOMISE_GRAPHIC_REPRESENTATION) then
+	shuffle_graphic_settings();
+end;
+
+pauzes_figures.shuffle();	
+
+# ################################################################
+# Main trial definition
+# ################################################################
+
+# First present starting screen
+startexp.present();
+startoefenblok.present();
+payattention.present();
+
+
+# Present the main sequence for this series
+loop
+	int i_trial = 1
+until
+	i_trial > WAVNAME.count()
+begin
+	term.print("Trial nr: "+ string(i_trial));
+	
+	set_and_load_wav(i_trial);
+	
+	if (DIALOGUE_NUMBER[i_trial]==0) then
+		do_dialogue_type_0(i_trial);
+	elseif (DIALOGUE_NUMBER[i_trial]==1) then
+		do_dialogue_type_1(i_trial);			
+	elseif (DIALOGUE_NUMBER[i_trial]==2) then
+		do_dialogue_type_2(i_trial);
+	else
+		exit("Illegal dialogue type: " + string(DIALOGUE_NUMBER[i_trial]));
+	end;
+	
+	wavefile_stimulus.unload();
+	
+	# End of practice	
+	if (EXPERIMENT_CODE[i_trial]== 1) then
+		term.print_line("[EXPERIMENT_CODE == 1] ... Starting actual experiment");
+		endpractice.present();
+		starttest.present();
+		payattention.present();
+	end;
+		
+	if (EXPERIMENT_CODE[i_trial] == 3) then
+		term.print_line("[EXPERIMENT_CODE == 3] ... Starting small pause");
+		event_pauze_picture.set_stimulus(pauzes_figures[select_pause_figure_index(i_trial)]);				# set the stimulus of the trial		
+		trial_pauze_picture.present();
+		trial_pauze_text.present();
+		payattention.present();
+	end;	
+	
+	if (EXPERIMENT_CODE[i_trial]==99) then
+		# End of experiment
+		term.print_line("[EXPERIMENT_CODE == 99] ... Experiment Finished; make sure this code is last in the list!");
+		endexp.present();
+	end;
+		
+	i_trial = i_trial + 1;				
+end;
