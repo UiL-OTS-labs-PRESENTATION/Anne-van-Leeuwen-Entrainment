@@ -63,55 +63,55 @@
 <sd>
 <val>
 <dat>
-<val>lijst1.txt</val>
+<val>( 153, 154, 154 )</val>
 </dat>
 <id>0</id>
 </val>
 <val>
 <dat>
-<val>( 153, 154, 154 )</val>
+<val>1</val>
 </dat>
 <id>1</id>
 </val>
 <val>
 <dat>
-<val>1</val>
+<val>( 191, 191, 191 )</val>
 </dat>
 <id>2</id>
 </val>
 <val>
 <dat>
-<val>( 191, 191, 191 )</val>
+<val>( 162, 185, 128 )</val>
 </dat>
 <id>3</id>
 </val>
 <val>
 <dat>
-<val>( 162, 185, 128 )</val>
+<val>( 130, 131, 131 )</val>
 </dat>
 <id>4</id>
 </val>
 <val>
 <dat>
-<val>( 130, 131, 131 )</val>
+<val>106.2</val>
 </dat>
 <id>5</id>
 </val>
 <val>
 <dat>
-<val>106.2</val>
+<val>1240.2</val>
 </dat>
 <id>6</id>
 </val>
 <val>
 <dat>
-<val>1240.2</val>
+<val>10</val>
 </dat>
 <id>7</id>
 </val>
 <val>
 <dat>
-<val>10</val>
+<val>1</val>
 </dat>
 <id>8</id>
 </val>
@@ -126,25 +126,25 @@
 <grp>
 <gn>Simuli</gn>
 <pl>
-<pid>0</pid>
-<pid>2</pid>
+<pid>8</pid>
+<pid>1</pid>
 </pl>
 </grp>
 <grp>
 <gn>Simuli Color</gn>
 <pl>
-<pid>1</pid>
+<pid>0</pid>
+<pid>2</pid>
 <pid>3</pid>
 <pid>4</pid>
-<pid>5</pid>
 </pl>
 </grp>
 <grp>
 <gn>Bar Dimensions</gn>
 <pl>
+<pid>5</pid>
 <pid>6</pid>
 <pid>7</pid>
-<pid>8</pid>
 </pl>
 </grp>
 </grps>
@@ -153,20 +153,6 @@
 <parms>
 <parm>
 <id>0</id>
-<set>
-<desc>The list that contains the stimuli for a single trial on each line</desc>
-<edit>1</edit>
-<name>Stimulus List</name>
-<set>
-<rest></rest>
-</set>
-<temp>0</temp>
-<type>string</type>
-<vis>1</vis>
-</set>
-</parm>
-<parm>
-<id>1</id>
 <set>
 <desc></desc>
 <edit>1</edit>
@@ -180,7 +166,7 @@
 </set>
 </parm>
 <parm>
-<id>2</id>
+<id>1</id>
 <set>
 <desc>If set to true the graphical representations of the trials will be shuffled.</desc>
 <edit>1</edit>
@@ -194,7 +180,7 @@
 </set>
 </parm>
 <parm>
-<id>3</id>
+<id>2</id>
 <set>
 <desc></desc>
 <edit>1</edit>
@@ -208,7 +194,7 @@
 </set>
 </parm>
 <parm>
-<id>4</id>
+<id>3</id>
 <set>
 <desc></desc>
 <edit>1</edit>
@@ -222,7 +208,7 @@
 </set>
 </parm>
 <parm>
-<id>5</id>
+<id>4</id>
 <set>
 <desc></desc>
 <edit>1</edit>
@@ -236,7 +222,7 @@
 </set>
 </parm>
 <parm>
-<id>6</id>
+<id>5</id>
 <set>
 <desc>Pixels</desc>
 <edit>1</edit>
@@ -250,7 +236,7 @@
 </set>
 </parm>
 <parm>
-<id>7</id>
+<id>6</id>
 <set>
 <desc>Pixels</desc>
 <edit>1</edit>
@@ -264,7 +250,7 @@
 </set>
 </parm>
 <parm>
-<id>8</id>
+<id>7</id>
 <set>
 <desc>Pixels (Space between the top of the token and the bar)</desc>
 <edit>1</edit>
@@ -274,6 +260,20 @@
 </set>
 <temp>0</temp>
 <type>double</type>
+<vis>1</vis>
+</set>
+</parm>
+<parm>
+<id>8</id>
+<set>
+<desc>Number of the stimulus list.</desc>
+<edit>1</edit>
+<name>Stimulus List</name>
+<set>
+<rest></rest>
+</set>
+<temp>1</temp>
+<type>int</type>
 <vis>1</vis>
 </set>
 </parm>
@@ -327,7 +327,7 @@
 <isb>10000</isb>
 <lfd>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen</lfd>
 <lnb>1</lnb>
-<lno>1</lno>
+<lno>3</lno>
 <log>
 <append_counter>1</append_counter>
 <delimiter>9</delimiter>
