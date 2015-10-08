@@ -5,7 +5,9 @@
  
 # audio mode moet in exclusive mode staan als we gaan testen! aanpassen aub
 
-scenario = "Entrainment";
+$stimulus_list = EXPARAM( "Stimulus List" : 99);
+$scenario = "Lijst$stimulus_list";
+scenario = $scenario;
 pcl_file = "Entrainment_main.pcl";
 
 no_logfile = false ;
@@ -61,10 +63,13 @@ trial {
 		trial_type = correct_response;
 		trial_duration = forever; 
 		
+		stimulus_event { nothing {}; } list_descriptor;
+		
 		picture beginexp;
 		code = "startexp";
 		target_button = 1;
 		response_active = true;
+		
 } startexp;
 
 trial {

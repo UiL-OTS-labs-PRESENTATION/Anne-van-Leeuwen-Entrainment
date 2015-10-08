@@ -9,7 +9,7 @@ sub
 	create_box(rgb_color color, int left_x_percent, int right_x_percent, picture& result)
 begin
 	int reference_part_index = result.part_count();
-	double width = ( double(right_x_percent - left_x_percent)/100 ) * STIMULUS_BAR_WIDTH;
+	double width = abs( double(right_x_percent - left_x_percent)/100 ) * STIMULUS_BAR_WIDTH;
 	double height = STIMULUS_BAR_HEIGHT;
 	int box_x = int( ((double(left_x_percent)/100) * STIMULUS_BAR_WIDTH) - STIMULUS_BAR_WIDTH/2 + width/2) ;
 	int box_y = 0;
@@ -18,7 +18,7 @@ begin
 end;
 
 sub
-	picture create_visual_presentation_picture(rgb_color color_box_1, rgb_color color_box_2, rgb_color color_box_3, array<int> coordinates[3][2])
+	picture create_visual_presentation_picture(rgb_color color_box_1, rgb_color color_box_2, array<int> coordinates[2][2])
 begin
 	picture result = new picture;
 	
@@ -27,7 +27,6 @@ begin
 	
 	create_box(color_box_1, coordinates[1][1], coordinates[1][2], result);
 	create_box(color_box_2, coordinates[2][1], coordinates[2][2], result);
-	create_box(color_box_3, coordinates[3][1], coordinates[3][2], result);
 	
 	return result;
 end;
@@ -104,21 +103,32 @@ end;
 sub
 	parse_full_line(input_file& file, int index)
 begin
-	GAP.add(file.get_int());	
-	WAVNAME.add(file.get_string());		
-	DIALOGUE_NUMBER.add(file.get_int());
-	BLOCK_NUMBER.add(file.get_int());
+
+	WAVNAME.add(file.get_string());
 	EXPERIMENT_CODE.add(file.get_int());
+	DIALOGUE_NUMBER.add(file.get_int());
+	TRIAL_NUMBER.add(file.get_int());
+	CODE_CONDITION_SEND.add(file.get_int());
+	CODE_OVERLAP_SEND.add(file.get_int());
+	CODE_BLOCK.add(file.get_int());
+	CODE_ITEM.add(file.get_int());
+	CODE_TEMPO.add(file.get_int());
+	CODE_CONDITION.add(file.get_int());
+	CODE_OVERLAP.add(file.get_int());
 	
-	array <int> coordinates[3][2];
+	array <int> coordinates[2][2];
 	coordinates[1][1] = file.get_int();
 	coordinates[1][2] = file.get_int();
 	coordinates[2][1] = file.get_int();
 	coordinates[2][2] = file.get_int();
-	coordinates[3][1] = file.get_int();
-	coordinates[3][2] = file.get_int();
+	
+	if( coordinates[1][1] > coordinates[1][2]
+		|| coordinates[2][1] > coordinates[2][2]) then
+		exit("Illegal graphic representation on stimulus-list line: " + string(index));
+	end;
 	
 	GRAPHICAL_SETTINGS.add(coordinates);
+	
 end;
 
 sub
@@ -126,17 +136,17 @@ sub
 begin
 	string voorbeeldfile= stimulus_directory + STIMULUS_LIST_FILENAME;
 
-	term.print_line("Opening: " + voorbeeldfile  + "...");
+	term.print_line("Opening: " + voorbeeldfile  + " ...");
 
 	int number_of_trials = get_number_of_lines_in_file(voorbeeldfile);
 	
-	term.print_line("Detected " + string(number_of_trials) + " trials...");
+	term.print_line("Detected " + string(number_of_trials) + " lines ...");
 
 	input_file in = new input_file;
 	in.set_delimiter( '\t' );
 	in.open(voorbeeldfile);
 
-	term.print_line("Scanning them now...");
+	term.print_line("Scanning them now ...");
 
 	# Now read in the actual filenames and all timing info from the file
 	loop int index = 1 until index > number_of_trials begin 
@@ -156,31 +166,28 @@ end;
 sub
 	shuffle_graphic_settings
 begin
-	if (GRAPHICAL_SETTINGS.count() % 3 != 0) then
-		exit("Graphic settings did not form expected triplets! Check the count ("+ string(GRAPHICAL_SETTINGS.count()) + ")!");
+	if (GRAPHICAL_SETTINGS.count() % 2 != 0) then
+		exit("Graphic settings did not form expected duplets! Check the count ("+ string(GRAPHICAL_SETTINGS.count()) + ")!");
 	end;
 	
-	int number_of_triplets = GRAPHICAL_SETTINGS.count()/3;
+	int number_of_duplets = GRAPHICAL_SETTINGS.count()/2;
 	
-	loop int triplet_index = 1 until triplet_index ==  number_of_triplets begin
-		int source_triplet_index = triplet_index + (2*(triplet_index-1));
-		int target_triplet = random(1,number_of_triplets);
-		int target_triplet_index = target_triplet + (2*(target_triplet-1));
+	loop int duplet_index = 1 until duplet_index ==  number_of_duplets begin
+		int source_duplet_index = duplet_index * 2 - 1;
+		int target_duplet = random(1,number_of_duplets);
+		int target_duplet_index = target_duplet * 2 - 1;
 		
-		array <int> temp[3][3][2];
-		temp[1] = GRAPHICAL_SETTINGS[target_triplet_index];
-		temp[2] = GRAPHICAL_SETTINGS[target_triplet_index+1];
-		temp[3] = GRAPHICAL_SETTINGS[target_triplet_index+2];
+		array <int> temp[2][2][2];
+		temp[1] = GRAPHICAL_SETTINGS[target_duplet_index];
+		temp[2] = GRAPHICAL_SETTINGS[target_duplet_index+1];
 		
-		GRAPHICAL_SETTINGS[target_triplet_index] = GRAPHICAL_SETTINGS[source_triplet_index];
-		GRAPHICAL_SETTINGS[target_triplet_index+1] = GRAPHICAL_SETTINGS[source_triplet_index+1];
-		GRAPHICAL_SETTINGS[target_triplet_index+2] = GRAPHICAL_SETTINGS[source_triplet_index+2];
+		GRAPHICAL_SETTINGS[target_duplet_index] = GRAPHICAL_SETTINGS[source_duplet_index];
+		GRAPHICAL_SETTINGS[target_duplet_index+1] = GRAPHICAL_SETTINGS[source_duplet_index+1];
 		
-		GRAPHICAL_SETTINGS[source_triplet_index] = temp[1];
-		GRAPHICAL_SETTINGS[source_triplet_index+1] = temp[2];
-		GRAPHICAL_SETTINGS[source_triplet_index+2] = temp[3];
+		GRAPHICAL_SETTINGS[source_duplet_index] = temp[1];
+		GRAPHICAL_SETTINGS[source_duplet_index+1] = temp[2];
 		
-		triplet_index = triplet_index +1;
+		duplet_index = duplet_index +1;
 	end;
 end;
 
@@ -206,25 +213,24 @@ end;
 sub
 	do_dialogue_type_0(int i_trial)
 begin
-	picture graphic = create_visual_presentation_picture(READY_COLOR, READY_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
+	picture graphic = create_visual_presentation_picture(READY_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	
 	event_inactive_start.set_stimulus(graphic);				# set the inactive picture - start	
 	event_inactive_start.set_event_code("SET ME");
 	
-	graphic = create_visual_presentation_picture(ACTIVE_COLOR, READY_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
+	graphic = create_visual_presentation_picture(ACTIVE_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	event_active.set_stimulus(graphic);								# set picture first active dialogue - self-paced
 	event_active.set_event_code("SET ME");
 	
-	
 	event0.set_stimulus(graphic);										# set picture active first for during listening	
-	event0.set_event_code(string(BLOCK_NUMBER[i_trial]));											# set bloknr as code
+	event0.set_event_code("SET me");											# set bloknr as code
 	
 	event_nothing.set_event_code(string(DIALOGUE_NUMBER[i_trial]));							# set expcode as code = end dialogue
 	
 	event_active_stay.set_stimulus(graphic);						# set picture active first for after listening
-	event_active_stay.set_event_code(string(GAP[i_trial]));							# set gap duration as code
+	event_active_stay.set_event_code("SET ME");							# set gap duration as code
 	
-	graphic = create_visual_presentation_picture(INACTIVE_COLOR, READY_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
+	graphic = create_visual_presentation_picture(INACTIVE_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	event_inactive.set_stimulus(graphic);							# set picture inactive first
 	event_inactive.set_event_code("SET ME");
 
@@ -239,45 +245,20 @@ end;
 sub
 	do_dialogue_type_1(int i_trial)
 begin
-	picture graphic = create_visual_presentation_picture(INACTIVE_COLOR, ACTIVE_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
+	term.print_line("HERE!");
+	picture graphic = create_visual_presentation_picture(INACTIVE_COLOR, ACTIVE_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	event_active.set_stimulus(graphic);								# set picture second active dialogue - self-paced
 	event_active.set_event_code("SET ME");
 	
 	event0.set_stimulus(graphic);										# set picture sound
-	event0.set_event_code(string(BLOCK_NUMBER[i_trial]));
+	event0.set_event_code("Set me");
 	
 	event_nothing.set_event_code(string(DIALOGUE_NUMBER[i_trial]));							# set expcode as code = end dialogue
 	
 	event_active_stay.set_stimulus(graphic);
-	event_active_stay.set_event_code(string(GAP[i_trial]));	
+	event_active_stay.set_event_code("SET ME");	
 	
-	graphic = create_visual_presentation_picture(INACTIVE_COLOR, INACTIVE_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
-	event_inactive.set_stimulus(graphic);						# set the inactive picture - start
-	event_inactive.set_event_code("SET ME");
-
-	trial_active.present();
-	playsent.present();
-	trial_active_stay.present();	
-	trial_inactive.present();
-end;
-
-sub
-	do_dialogue_type_2(int i_trial)
-begin
-	
-	picture graphic = create_visual_presentation_picture(INACTIVE_COLOR, INACTIVE_COLOR, ACTIVE_COLOR, GRAPHICAL_SETTINGS[i_trial]);
-	event_active.set_stimulus(graphic);								# set picture second active dialogue - self-paced
-	event_active.set_event_code("SET ME");
-	
-	event0.set_stimulus(graphic);										# set picture sound
-	event0.set_event_code(string(BLOCK_NUMBER[i_trial]));
-	
-	event_nothing.set_event_code(string(DIALOGUE_NUMBER[i_trial]));							# set expcode as code = end dialogue
-	
-	event_active_stay.set_stimulus(graphic);
-	event_active_stay.set_event_code(string(GAP[i_trial]));	
-	
-	graphic = create_visual_presentation_picture(INACTIVE_COLOR, INACTIVE_COLOR, INACTIVE_COLOR, GRAPHICAL_SETTINGS[i_trial]);
+	graphic = create_visual_presentation_picture(INACTIVE_COLOR, INACTIVE_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	event_inactive.set_stimulus(graphic);						# set the inactive picture - start
 	event_inactive.set_event_code("SET ME");
 

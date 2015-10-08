@@ -2,6 +2,8 @@
 include_once "Entrainment_parameters.pcl";
 include_once "Entrainment_subroutines.pcl";
 
+list_descriptor.set_event_code(STIMULUS_LIST_FILENAME);
+
 open_stimulus_data_file();
 
 if(!all_sound_files_exist()) then
@@ -12,7 +14,7 @@ if(RANDOMISE_GRAPHIC_REPRESENTATION) then
 	shuffle_graphic_settings();
 end;
 
-pauzes_figures.shuffle();	
+pauzes_figures.shuffle();
 
 # ################################################################
 # Main trial definition
@@ -38,8 +40,6 @@ begin
 		do_dialogue_type_0(i_trial);
 	elseif (DIALOGUE_NUMBER[i_trial]==1) then
 		do_dialogue_type_1(i_trial);			
-	elseif (DIALOGUE_NUMBER[i_trial]==2) then
-		do_dialogue_type_2(i_trial);
 	else
 		exit("Illegal dialogue type: " + string(DIALOGUE_NUMBER[i_trial]));
 	end;

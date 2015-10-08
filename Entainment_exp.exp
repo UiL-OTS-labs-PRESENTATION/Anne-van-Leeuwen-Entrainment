@@ -327,9 +327,9 @@
 <isb>10000</isb>
 <lfd>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen</lfd>
 <lnb>1</lnb>
-<lno>3</lno>
+<lno>1</lno>
 <log>
-<append_counter>0</append_counter>
+<append_counter>1</append_counter>
 <delimiter>9</delimiter>
 <general_list>1</general_list>
 <pien>0</pien>
@@ -341,7 +341,7 @@
 <warnings>1</warnings>
 </log>
 <lol>1</lol>
-<lpr></lpr>
+<lpr>ENTRAINMENT_</lpr>
 <maxpv></maxpv>
 <minpv></minpv>
 <mss>4</mss>

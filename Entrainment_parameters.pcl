@@ -1,11 +1,18 @@
-array <int> GAP[0];	
 array <string> WAVNAME[0];
 array <int> DIALOGUE_NUMBER[0];
-array <int> BLOCK_NUMBER[0];
 array <int> EXPERIMENT_CODE[0];
-array <int> GRAPHICAL_SETTINGS[0][3][2];
+array <int> TRIAL_NUMBER[0];
+array <int> CODE_CONDITION_SEND[0];
+array <int> CODE_OVERLAP_SEND[0];
+array <int> CODE_BLOCK[0];
+array <int> CODE_ITEM[0];
+array <int> CODE_TEMPO[0];
+array <int> CODE_CONDITION[0];
+array <int> CODE_OVERLAP[0];
+array <int> GRAPHICAL_SETTINGS[0][2][2];
 
-string STIMULUS_LIST_FILENAME = parameter_manager.get_string("Stimulus List");
+int STIMULUS_LIST = parameter_manager.get_int("Stimulus List");
+string STIMULUS_LIST_FILENAME = "lijst" + string(STIMULUS_LIST) + ".txt";
 bool RANDOMISE_GRAPHIC_REPRESENTATION = parameter_manager.get_bool("Randomise Graphic Representation");
 
 rgb_color STIMULUS_BAR_COLOR= parameter_manager.get_color("Stimulus Bar Background");
