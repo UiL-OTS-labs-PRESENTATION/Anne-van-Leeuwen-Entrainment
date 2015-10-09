@@ -36,6 +36,8 @@ begin
 	
 	set_and_load_wav(i_trial);
 	
+	baseline_with_picture.present();
+	
 	if (DIALOGUE_NUMBER[i_trial]==0) then
 		do_dialogue_type_0(i_trial);
 	elseif (DIALOGUE_NUMBER[i_trial]==1) then

@@ -225,7 +225,8 @@ begin
 	event0.set_stimulus(graphic);										# set picture active first for during listening	
 	event0.set_event_code("SET me");											# set bloknr as code
 	
-	event_nothing.set_event_code(string(DIALOGUE_NUMBER[i_trial]));							# set expcode as code = end dialogue
+	event_nothing.set_deltat(200);
+	event_nothing.set_event_code("A special code");							# set expcode as code = end dialogue
 	
 	event_active_stay.set_stimulus(graphic);						# set picture active first for after listening
 	event_active_stay.set_event_code("SET ME");							# set gap duration as code
