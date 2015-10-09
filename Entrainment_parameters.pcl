@@ -24,3 +24,5 @@ double STIMULUS_BAR_HEIGHT = parameter_manager.get_double("Stimulus Bar Height")
 double STIMULUS_BAR_WIDTH = parameter_manager.get_double("Stimulus Bar Width");
 double TOKEN_BAR_MARGIN = 10;
 string SOUND_DIR = "sounds/";
+
+int BASELINE_PICTURE_START_TRIGGER = parameter_manager.get_int("Baseline Start Trigger", 100);

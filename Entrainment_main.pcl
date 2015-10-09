@@ -36,6 +36,9 @@ begin
 	
 	set_and_load_wav(i_trial);
 	
+	set_trigger_code(baseline_picture_start_event, BASELINE_PICTURE_START_TRIGGER);
+	set_trigger_code(baseline_picture_end_event, TRIAL_NUMBER[i_trial]);
+	
 	baseline_with_picture.present();
 	
 	if (DIALOGUE_NUMBER[i_trial]==0) then

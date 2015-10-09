@@ -5,6 +5,13 @@
 # Read in stimulus-related information
 # ################################################################
 
+sub
+	set_trigger_code(stimulus_event& event, int trigger)
+begin
+	event.set_port_code(trigger);
+	event.set_event_code(string(trigger));
+end;
+	
 sub 
 	create_box(rgb_color color, int left_x_percent, int right_x_percent, picture& result)
 begin

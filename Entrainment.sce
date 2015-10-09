@@ -73,13 +73,22 @@ trial {
 } startexp;
 
 trial {
-	trial_duration = 2000;
-	picture { 
-		bitmap {
-			filename = "images/octocat.png"; preload = true; description = "baseline";
-		}; 
-		x=0; y=0;
-	};
+	stimulus_event
+	{
+		picture { 
+			bitmap {
+				filename = "images/octocat.png"; preload = true; description = "baseline";
+			}; 
+			x=0; y=0;
+		};
+	} baseline_picture_start_event;
+	
+	stimulus_event
+	{
+		nothing {};
+		deltat = 2000;
+	} baseline_picture_end_event;
+	
 } baseline_with_picture;
 
 trial {
