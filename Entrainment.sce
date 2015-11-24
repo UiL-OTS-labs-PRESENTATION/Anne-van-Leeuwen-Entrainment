@@ -1,16 +1,9 @@
-# Scenario for playing .wav files 
-# 2015 adapted by Anne van Leeuwen for rhythm experiment 2.0
-# listeners are presented with 3 dialogues (self-paced)
-# after the third dialogue they have to evaluate how it sounds
- 
-# audio mode moet in exclusive mode staan als we gaan testen! aanpassen aub
-
 $stimulus_list = EXPARAM( "Stimulus List" : 99);
 $scenario = "Lijst$stimulus_list";
 scenario = $scenario;
 pcl_file = "Entrainment_main.pcl";
 
-no_logfile = false ;
+no_logfile = false;
 
 #onderstaande moet op TRUE staan!!
 write_codes = false;               
@@ -18,8 +11,7 @@ pulse_width= 10;
 
 # define button codes, 1=enter, 2=x (helemaal niet mee eens), 3=c, 4=v, 5=b, 6=n, 7=m, 8=,(helemaal wel mee eens)  
 active_buttons = 8;    
-button_codes = 1,2,3,4,5,6,7,8;
-#response_port_output = false;
+button_codes = 250,121,122,123,124,125,126,127;
 response_logging = log_active;
 
 default_font_size = 30;
@@ -70,9 +62,28 @@ trial {
 		target_button = 1;
 		response_active = true;
 		
-} startexp;
+} start_experiment;
 
 trial {
+	trial_type = correct_response;
+	trial_duration = forever;
+	
+	picture startoefen;
+	code = "Start Practice"; 
+	target_button = 1;
+	response_active = true;
+} start_practice;
+
+trial {
+	start_delay = 500;
+	trial_duration = 1500;
+	
+	picture aandacht;
+	code ="aandacht";
+} pay_attention;
+
+trial {
+	trial_duration = 2000;
 	stimulus_event
 	{
 		picture { 
@@ -86,71 +97,113 @@ trial {
 	stimulus_event
 	{
 		nothing {};
-		deltat = 2000;
+		deltat = 1900;
 	} baseline_picture_end_event;
 	
 } baseline_with_picture;
 
-trial {
-	trial_type = correct_response;
-	trial_duration = forever;
+trial{
+	trial_duration = stimuli_length;
+	monitor_sounds = false;
 	
-	picture startoefen;
-	code = "startoefen"; 
-	target_button = 1;
-	response_active = true;
-} startoefenblok;
-
-trial {
-	start_delay = 500;
-	trial_duration = 1500;
-	
-	picture aandacht;
-	code ="aandacht";
-} payattention;
-	
-# we define a picture and name it
-picture { 
-	bitmap 
-	{	filename = ""; 
-		preload = false;
-	} p; 
-	x=0; y=0;
-} pct;
-
-trial { 
-	trial_duration = stimuli_length; 
-	monitor_sounds = true;
-
-	stimulus_event{
-		picture pct;
-		deltat = 100;
-		response_active = false;
-		code = "active";
-		duration = next_picture;
-	} event0;
-		
 	stimulus_event {
+		nothing {};
+		time = 0;
+	} graphic_ready_event_0;
+	
+	stimulus_event
+	{
+		nothing {};
+		time = 500;
+		duration = next_picture;
+	} graphic_active_event_0;
+	
+	stimulus_event
+	{
 		sound {
 			wavefile {
 				filename = "sounds/error.wav";
-				preload = false;
-			} wavefile_stimulus;
-		} sound_file; 
-		
-		deltat = 0; 
-		code = "";			
-		response_active = false;
-	} wav_event;
-		
+				preload = true;
+			} audio_item_0;
+		} audio_0;
+ 
+		time = 1000;
+	} audio_play_event_0;
+	
+	stimulus_event
+	{
+		nothing {};
+		deltat = 0;
+	} audio_play_delayed_event_0;
+	
+	stimulus_event
+	{
+		nothing {};
+	} audio_finish_event_0;
+	
 	stimulus_event {
 		nothing {};
-		deltat = 0; 
-		code = "";
-		response_active = false;
-	} event_nothing;
+		duration = next_picture;
+	} graphic_inactive_event_0;
 	
-} playsent;
+	stimulus_event {
+		nothing {};
+		deltat = 100;
+	} graphic_inactive_delayed_event_0;
+	
+	stimulus_event {
+		nothing {};
+		delta_time = 400;
+	} graphic_smooth_transition_0;
+	
+} dialogue_type_0_trial;
+
+trial{
+	trial_duration = stimuli_length;
+	monitor_sounds = false;
+	
+	stimulus_event
+	{
+		nothing {};
+		time = 0;
+		duration = next_picture;
+	} graphic_active_event_1;
+	
+	stimulus_event
+	{
+		sound {
+			wavefile {
+				filename = "sounds/error.wav";
+				preload = true;
+			} audio_item_1;
+		} audio_1;
+ 
+		time = 500;
+	} audio_play_event_1;
+	
+	stimulus_event
+	{
+		nothing {};
+		deltat = 0;
+	} audio_play_delayed_event_1;
+	
+	stimulus_event
+	{
+		nothing {};
+	} audio_finish_event_1;
+	
+	stimulus_event {
+		nothing {};
+		duration = next_picture;
+	} graphic_inactive_event_1;
+	
+	stimulus_event {
+		nothing {};
+		deltat = 100;
+		duration = 400;
+	} graphic_inactive_delayed_event_1;
+	
+} dialogue_type_1_trial;
 
 trial{
 	trial_duration = stimuli_length;
@@ -182,83 +235,31 @@ trial{
 	stimulus_event
 	{
 		picture default;
-		deltat = 0;
-		duration = 500;
-		code = "";
+		time = 0;
+		duration = 100;
+		code = "blank";
 		response_active = false;
-	} event_blank;
-} trial_blank;
-
-# trial definition voor inactive start and end
-trial{
-	trial_type = fixed;
-	trial_duration = 500;
+	} blank_event;
 	
 	stimulus_event
 	{
-		picture pct;
-		deltat = 0;
-		duration = next_picture;
-		code = "";
+		picture default;
+		time = 100;
+		duration = 900;
 		response_active = false;
-	} event_inactive;
-} trial_inactive;
+	} blank_event_delayed;
+	
+} blank_event_dialogue_question;
 
 trial{
+	trial_duration = stimuli_length;
 	trial_type = fixed;
-	trial_duration = 1500;
-	
-	stimulus_event
-	{
-		picture pct;
-		deltat = 0;
-		duration = next_picture;
-		code = "";
-		response_active = false;
-	} event_inactive_start;
-} trial_inactive_start;
-
-
-#trial active first display
-trial {		
-	trial_type = correct_response;
-	trial_duration = forever; 
-	
-	stimulus_event
-	{
-		picture pct;
-		deltat = 0;
-		code = "";
-		response_active = true;
-		target_button = 1;
-		duration = next_picture;
-	} event_active;
-	
-} trial_active;
-
-trial {		
-	trial_type = fixed;
-	trial_duration = 200;
-	
-	stimulus_event
-	{
-		picture pct;
-		deltat = 0;
-		code = "";
-		response_active = false;
-		duration = next_picture;
-	} event_active_stay;
-} trial_active_stay;
-
-array {
-	ellipse_graphic {
-		ellipse_width = 20;
-		ellipse_height = 20;
-		color = 166, 166, 166;
-		rotation = 30;
-	} circle0;
-
-} feedback_circles;
+	picture default;
+	time = 0;
+	duration = 500;
+	code = "blank";
+	response_active = false;	
+} blank_trial;
 
 ellipse_graphic {
 	ellipse_width = 20;
@@ -323,60 +324,65 @@ picture {
 	ellipse_graphic circle6; x=100; y=-150;
 	ellipse_graphic circle7; x=150; y=-150;
 	text text_toenadering; left_x=200; y=-150;
-} vraag;
-			
+} question;
 
+# End of Practice
+trial {
+	start_delay = 1000;
+	trial_type = correct_response;
+	trial_duration = forever;
 	
+	picture eindoefen;
+	code = "eindeoefening";
+	target_button = 1;
+	response_active = true;
+} endpractice;
+
+# Begin of Testitems
+trial {
+	trial_type = correct_response;
+	trial_duration = forever;
+
+	picture begintest;
+	code = "starttest";
+	target_button = 1;
+	response_active = true;
+} starttest;
+
+# End of Experiment
+trial {
+	start_delay = 1000;
+	trial_type = correct_response;
+	trial_duration = forever;
 	
+	picture eindexp;
+	code = "eindexp";
+	target_button = 1;
+	response_active = true;
+} endexp;
 
+trial {
+	trial_type = correct_response;
+	trial_duration = forever;
+	
+	stimulus_event {
+		picture question;
+		target_button = 2,3,4,5,6,7,8;
+		code = "Question";
+	} question_event;
+	
+} question_trial;
 
-	# End of Practice
-	trial {
-		start_delay = 1000;
-		trial_type = correct_response;
-		trial_duration = forever; 
-		picture eindoefen;
-		code = "eindeoefening";
-		target_button = 1;
-		response_active = true;
-	} endpractice;
-
-	# Begin of Testitems
-	trial {
-		trial_type = correct_response;
-		trial_duration = forever; 
-		picture begintest;
-		code = "starttest";
-		target_button = 1;
-		response_active = true;
-	} starttest;
-
-	# End of Experiment
-	trial {
-		start_delay = 1000;
-		trial_type = correct_response;
-		trial_duration = forever; 
-		picture eindexp;
-		code = "eindexp";
-		target_button = 1;
-		response_active = true;
-	} endexp;
-
-	trial {
-		trial_type = correct_response;
-		trial_duration = forever;
-		
-		stimulus_event {
-			picture vraag;
-			target_button = 2,3,4,5,6,7,8;
-			code = "vraag";
-		} event_vraag;
-		
-	} trial_vraag;
-
-	trial {
-		trial_type = fixed;
-		trial_duration = 500;
-		picture vraag;
-		
-	} trial_feedback_vraag;
+trial {
+	trial_type = fixed;
+	trial_duration = 500;
+	
+	picture question;
+	time=0;
+	
+	nothing {};
+	time=100;
+	port_code = EXPARAM( "TRIAL_END_TRIGGER" : 255);
+	code = EXPARAM( "TRIAL_END_TRIGGER" : 255);
+	
+} trial_feedback_vraag;

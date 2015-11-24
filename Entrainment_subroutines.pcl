@@ -86,6 +86,14 @@ begin
 end;
 
 sub
+	skip_header(input_file& file)
+begin
+	file.set_delimiter( '\n' );
+	file.get_line();
+	file.set_delimiter( '\t' );
+end;
+
+sub
 	int get_number_of_lines_in_file(string filename)
 begin
 	int number_of_lines = 0;
@@ -93,7 +101,7 @@ begin
 	
 	file.set_delimiter( '\n' );
 	file.open(filename);
-	
+	file.get_line(); # skipping header
 	loop until file.end_of_file() begin
 		file.get_line();
 		if (!file.last_succeeded()) then
@@ -110,10 +118,10 @@ end;
 sub
 	parse_full_line(input_file& file, int index)
 begin
-
+	DIALOGUE_NUMBER.add(file.get_int());
 	WAVNAME.add(file.get_string());
 	EXPERIMENT_CODE.add(file.get_int());
-	DIALOGUE_NUMBER.add(file.get_int());
+	DIALOGUE_TYPE.add(file.get_int());
 	TRIAL_NUMBER.add(file.get_int());
 	CODE_CONDITION_SEND.add(file.get_int());
 	CODE_OVERLAP_SEND.add(file.get_int());
@@ -131,7 +139,9 @@ begin
 	
 	if( coordinates[1][1] > coordinates[1][2]
 		|| coordinates[2][1] > coordinates[2][2]) then
+		term.print_line(coordinates);
 		exit("Illegal graphic representation on stimulus-list line: " + string(index));
+		
 	end;
 	
 	GRAPHICAL_SETTINGS.add(coordinates);
@@ -141,20 +151,21 @@ end;
 sub
 	open_stimulus_data_file
 begin
-	string voorbeeldfile= stimulus_directory + STIMULUS_LIST_FILENAME;
+	string stimulus_file= stimulus_directory + STIMULUS_LIST_FILENAME;
 
-	term.print_line("Opening: " + voorbeeldfile  + " ...");
+	term.print_line("Opening: " + stimulus_file + " ...");
 
-	int number_of_trials = get_number_of_lines_in_file(voorbeeldfile);
+	int number_of_trials = get_number_of_lines_in_file(stimulus_file);
 	
 	term.print_line("Detected " + string(number_of_trials) + " lines ...");
 
 	input_file in = new input_file;
 	in.set_delimiter( '\t' );
-	in.open(voorbeeldfile);
+	in.open(stimulus_file);
 
 	term.print_line("Scanning them now ...");
-
+	
+	skip_header(in);
 	# Now read in the actual filenames and all timing info from the file
 	loop int index = 1 until index > number_of_trials begin 
 		parse_full_line(in, index); 
@@ -174,6 +185,8 @@ sub
 	shuffle_graphic_settings
 begin
 	if (GRAPHICAL_SETTINGS.count() % 2 != 0) then
+		term.print(GRAPHICAL_SETTINGS.count());
+		term.print(GRAPHICAL_SETTINGS);
 		exit("Graphic settings did not form expected duplets! Check the count ("+ string(GRAPHICAL_SETTINGS.count()) + ")!");
 	end;
 	
@@ -199,86 +212,86 @@ begin
 end;
 
 sub
-	set_and_load_wav(int i_trial)
+	set_and_load_wav(wavefile& audio_item, int i_trial)
 begin
 		# Set the filename and load it
 		string f = WAVNAME[i_trial];
 		term.print_line(" setting next filename = " + f);
 
-		wavefile_stimulus.set_filename( SOUND_DIR + f );  
+		audio_item.set_filename( SOUND_DIR + f );  
 
 		term.print_line("will try loading file: "+ stimulus_directory + SOUND_DIR + f);
-		wavefile_stimulus.load();
-		term.print_line("have loaded file: "+ f);
-		
-		# Set the .wav as the current stm and write wav-name to eventcode (contrains condition, speaker A+B, itemA+B, ioi)
-		# for the portcodes: writes itemnr to portcode at onset wav-file
-		#wav_event.set_stimulus( sound_file ); 
-		wav_event.set_event_code(WAVNAME[i_trial]);
+		audio_item.load();
+		term.print_line("have loaded file: "+ audio_item.filename());
+		term.print_line("duration (ms): "+ string(audio_item.duration()));
 end;
 
 sub
 	do_dialogue_type_0(int i_trial)
 begin
 	picture graphic = create_visual_presentation_picture(READY_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
-	
-	event_inactive_start.set_stimulus(graphic);				# set the inactive picture - start	
-	event_inactive_start.set_event_code("SET ME");
+	graphic_ready_event_0.set_stimulus(graphic);				# set the ready picture - start
+	set_trigger_code(graphic_ready_event_0,DIALOGUE_NUMBER[i_trial]);
 	
 	graphic = create_visual_presentation_picture(ACTIVE_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
-	event_active.set_stimulus(graphic);								# set picture first active dialogue - self-paced
-	event_active.set_event_code("SET ME");
+	graphic_active_event_0.set_stimulus(graphic);								# set picture first active dialogue - self-paced
+	set_trigger_code(graphic_active_event_0, CODE_TEMPO[i_trial]);
 	
-	event0.set_stimulus(graphic);										# set picture active first for during listening	
-	event0.set_event_code("SET me");											# set bloknr as code
+	set_and_load_wav(audio_item_0, i_trial);
+	set_trigger_code(audio_play_event_0, DIALOGUE_0_START_TRIGGER);
 	
-	event_nothing.set_deltat(200);
-	event_nothing.set_event_code("A special code");							# set expcode as code = end dialogue
+	audio_play_delayed_event_0.set_deltat(CODE_CONDITION_SEND[i_trial]);
+	set_trigger_code(audio_play_delayed_event_0, CODE_CONDITION[i_trial]);
 	
-	event_active_stay.set_stimulus(graphic);						# set picture active first for after listening
-	event_active_stay.set_event_code("SET ME");							# set gap duration as code
+	int audio_finish_time = audio_item_0.duration() - CODE_CONDITION_SEND[i_trial];
+	audio_finish_time = audio_finish_time + 100;
+	
+	audio_finish_event_0.set_deltat(audio_finish_time);
+	set_trigger_code(audio_finish_event_0, CODE_OVERLAP[i_trial]);
 	
 	graphic = create_visual_presentation_picture(INACTIVE_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
-	event_inactive.set_stimulus(graphic);							# set picture inactive first
-	event_inactive.set_event_code("SET ME");
-
-	trial_inactive_start.present();												# start with picture inactive	
+	graphic_inactive_event_0.set_stimulus(graphic);								# set picture first active dialogue - self-paced
 	
-	trial_active.present();	
-	playsent.present();	
-	trial_active_stay.present();												# play dialogue
-	trial_inactive.present();													
+	set_trigger_code(graphic_inactive_delayed_event_0, CODE_BLOCK[i_trial]);
+	
+	dialogue_type_0_trial.present();
+	audio_item_0.unload();
 end;
 
 sub
 	do_dialogue_type_1(int i_trial)
 begin
-	term.print_line("HERE!");
 	picture graphic = create_visual_presentation_picture(INACTIVE_COLOR, ACTIVE_COLOR, GRAPHICAL_SETTINGS[i_trial]);
-	event_active.set_stimulus(graphic);								# set picture second active dialogue - self-paced
-	event_active.set_event_code("SET ME");
+	graphic_active_event_1.set_stimulus(graphic);								# set picture first active dialogue - self-paced
 	
-	event0.set_stimulus(graphic);										# set picture sound
-	event0.set_event_code("Set me");
+	set_and_load_wav(audio_item_1, i_trial);
+	set_trigger_code(audio_play_event_1, DIALOGUE_1_START_TRIGGER);
 	
-	event_nothing.set_event_code(string(DIALOGUE_NUMBER[i_trial]));							# set expcode as code = end dialogue
+	audio_play_delayed_event_1.set_deltat(CODE_CONDITION_SEND[i_trial]);
+	set_trigger_code(audio_play_delayed_event_1, CODE_CONDITION[i_trial]);
 	
-	event_active_stay.set_stimulus(graphic);
-	event_active_stay.set_event_code("SET ME");	
+	int audio_finish_time = audio_item_1.duration() - CODE_CONDITION_SEND[i_trial];
+	audio_finish_time = audio_finish_time + 100;
+	
+	audio_finish_event_1.set_deltat(audio_finish_time);
+	set_trigger_code(audio_finish_event_1, CODE_OVERLAP[i_trial]);
 	
 	graphic = create_visual_presentation_picture(INACTIVE_COLOR, INACTIVE_COLOR, GRAPHICAL_SETTINGS[i_trial]);
-	event_inactive.set_stimulus(graphic);						# set the inactive picture - start
-	event_inactive.set_event_code("SET ME");
+	graphic_inactive_event_1.set_stimulus(graphic);								# set picture first active dialogue - self-paced
+	graphic_inactive_delayed_event_1.set_stimulus(graphic);	
+	set_trigger_code(graphic_inactive_delayed_event_1, CODE_BLOCK[i_trial]);
+	
+	dialogue_type_1_trial.present();
+	audio_item_1.unload();
+end;
 
-	trial_active.present();
-	playsent.present();
-	trial_active_stay.present();
-	trial_inactive.present();
-
-	#after the last dialogue display the question
-	trial_blank.present();															
-	trial_vraag.present();
+sub 
+	do_question
+begin
+	blank_event_dialogue_question.present();															
+	question_trial.present();
 	provide_feedback();
+	blank_trial.present();
 end;
 
 sub

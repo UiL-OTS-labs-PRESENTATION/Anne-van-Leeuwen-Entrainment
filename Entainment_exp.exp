@@ -115,6 +115,36 @@
 </dat>
 <id>8</id>
 </val>
+<val>
+<dat>
+<val>100</val>
+</dat>
+<id>9</id>
+</val>
+<val>
+<dat>
+<val>101</val>
+</dat>
+<id>10</id>
+</val>
+<val>
+<dat>
+<val>102</val>
+</dat>
+<id>11</id>
+</val>
+<val>
+<dat>
+<val>120</val>
+</dat>
+<id>12</id>
+</val>
+<val>
+<dat>
+<val>255</val>
+</dat>
+<id>13</id>
+</val>
 </sd>
 <sid>-1</sid>
 </ss>
@@ -145,6 +175,16 @@
 <pid>5</pid>
 <pid>6</pid>
 <pid>7</pid>
+</pl>
+</grp>
+<grp>
+<gn>Triggers</gn>
+<pl>
+<pid>9</pid>
+<pid>10</pid>
+<pid>11</pid>
+<pid>12</pid>
+<pid>13</pid>
 </pl>
 </grp>
 </grps>
@@ -270,9 +310,79 @@
 <edit>1</edit>
 <name>Stimulus List</name>
 <set>
-<rest></rest>
+<rest>[1,10]</rest>
 </set>
 <temp>1</temp>
+<type>int</type>
+<vis>1</vis>
+</set>
+</parm>
+<parm>
+<id>9</id>
+<set>
+<desc></desc>
+<edit>1</edit>
+<name>Baseline Start Trigger</name>
+<set>
+<rest>[ 1, 255 ]</rest>
+</set>
+<temp>0</temp>
+<type>int</type>
+<vis>1</vis>
+</set>
+</parm>
+<parm>
+<id>10</id>
+<set>
+<desc></desc>
+<edit>1</edit>
+<name>Dialogue 0 Start Trigger</name>
+<set>
+<rest>[ 1, 255 ]</rest>
+</set>
+<temp>0</temp>
+<type>int</type>
+<vis>1</vis>
+</set>
+</parm>
+<parm>
+<id>11</id>
+<set>
+<desc></desc>
+<edit>1</edit>
+<name>Dialogue 1 Start Trigger</name>
+<set>
+<rest>[ 1, 255 ]</rest>
+</set>
+<temp>0</temp>
+<type>int</type>
+<vis>1</vis>
+</set>
+</parm>
+<parm>
+<id>12</id>
+<set>
+<desc></desc>
+<edit>1</edit>
+<name>Blank Screen Trigger</name>
+<set>
+<rest>[ 1, 255 ]</rest>
+</set>
+<temp>0</temp>
+<type>int</type>
+<vis>1</vis>
+</set>
+</parm>
+<parm>
+<id>13</id>
+<set>
+<desc></desc>
+<edit>1</edit>
+<name>Trial End Trigger</name>
+<set>
+<rest>[ 1, 255 ]</rest>
+</set>
+<temp>0</temp>
 <type>int</type>
 <vis>1</vis>
 </set>
