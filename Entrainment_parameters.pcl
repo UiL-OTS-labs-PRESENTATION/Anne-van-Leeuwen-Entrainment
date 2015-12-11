@@ -1,12 +1,12 @@
+array <int> PLAY_NR[0];
 array <string> WAVNAME[0];
-array <int> DIALOGUE_TYPE[0];
-array <int> DIALOGUE_NUMBER[0];
 array <int> EXPERIMENT_CODE[0];
+array <int> DIALOGUE_TYPE[0];
 array <int> TRIAL_NUMBER[0];
 array <int> CODE_CONDITION_SEND[0];
 array <int> CODE_OVERLAP_SEND[0];
 array <int> CODE_BLOCK[0];
-array <int> CODE_ITEM[0];
+array <int> CODE_DIALOGUE[0];
 array <int> CODE_TEMPO[0];
 array <int> CODE_CONDITION[0];
 array <int> CODE_OVERLAP[0];

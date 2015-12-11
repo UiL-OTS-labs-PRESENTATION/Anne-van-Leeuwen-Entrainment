@@ -45,7 +45,7 @@ begin
 		do_dialogue_type_1(i_trial);
 		do_question();
 	else
-		exit("Illegal dialogue type: " + string(DIALOGUE_NUMBER[i_trial]));
+		exit("Illegal dialogue type: " + string(DIALOGUE_TYPE[i_trial]));
 	end;
 	
 	# End of practice	

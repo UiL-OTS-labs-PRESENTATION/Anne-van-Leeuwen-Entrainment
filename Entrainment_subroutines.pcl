@@ -118,15 +118,18 @@ end;
 sub
 	parse_full_line(input_file& file, int index)
 begin
-	DIALOGUE_NUMBER.add(file.get_int());
+	PLAY_NR.add(file.get_int());
 	WAVNAME.add(file.get_string());
 	EXPERIMENT_CODE.add(file.get_int());
 	DIALOGUE_TYPE.add(file.get_int());
 	TRIAL_NUMBER.add(file.get_int());
+	
 	CODE_CONDITION_SEND.add(file.get_int());
 	CODE_OVERLAP_SEND.add(file.get_int());
+	
 	CODE_BLOCK.add(file.get_int());
-	CODE_ITEM.add(file.get_int());
+	CODE_DIALOGUE.add(file.get_int());
+
 	CODE_TEMPO.add(file.get_int());
 	CODE_CONDITION.add(file.get_int());
 	CODE_OVERLAP.add(file.get_int());
@@ -231,7 +234,10 @@ sub
 begin
 	picture graphic = create_visual_presentation_picture(READY_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	graphic_ready_event_0.set_stimulus(graphic);				# set the ready picture - start
-	set_trigger_code(graphic_ready_event_0,DIALOGUE_NUMBER[i_trial]);
+	term.print_line("MANY HONORS!:");
+	term.print_line(string(CODE_DIALOGUE[i_trial]));
+	
+	set_trigger_code(graphic_ready_event_0,CODE_DIALOGUE[i_trial]);
 	
 	graphic = create_visual_presentation_picture(ACTIVE_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	graphic_active_event_0.set_stimulus(graphic);								# set picture first active dialogue - self-paced

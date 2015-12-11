@@ -1,5 +1,5 @@
-<ver>18.1</ver>
-<efn>C:\Users\lab-user\Desktop\Anne\Entainment_exp.exp</efn>
+<ver>17.2</ver>
+<efn>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen\Entainment_exp.exp</efn>
 <author>Anne van Leeuwen</author>
 <con>
 <pause>P</pause>
@@ -44,13 +44,13 @@
 <lfn></lfn>
 </docs>
 <dp_list></dp_list>
-<dsd>C:\Users\lab-user\Desktop\Anne\stimuli</dsd>
+<dsd>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen\stimuli</dsd>
 <dxv>8</dxv>
 <efs>
-<filename>C:\Users\lab-user\Desktop\Anne\Entrainment.sce</filename>
-<filename>C:\Users\lab-user\Desktop\Anne\Entrainment_main.pcl</filename>
-<filename>C:\Users\lab-user\Desktop\Anne\Entrainment_subroutines.pcl</filename>
-<filename>C:\Users\lab-user\Desktop\Anne\Entrainment_parameters.pcl</filename>
+<filename>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen\Entrainment.sce</filename>
+<filename>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen\Entrainment_main.pcl</filename>
+<filename>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen\Entrainment_subroutines.pcl</filename>
+<filename>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen\Entrainment_parameters.pcl</filename>
 </efs>
 <exclusive_mouse>1</exclusive_mouse>
 <exp_version>1.0</exp_version>
@@ -435,7 +435,7 @@
 </chan>
 </ip_chans>
 <isb>10000</isb>
-<lfd>C:\Users\lab-user\Desktop\Anne\logfiles</lfd>
+<lfd>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen\logfiles</lfd>
 <lnb>1</lnb>
 <lno>3</lno>
 <log>
@@ -474,9 +474,9 @@
 <spr></spr>
 <sps></sps>
 </parameters>
-<piai>COM6</piai>
+<piai>COM1</piai>
 <pian>Serial Port</pian>
-<pihpn>COM6</pihpn>
+<pihpn>COM1</pihpn>
 </device>
 <device>
 <parameters>
@@ -491,9 +491,9 @@
 <spr></spr>
 <sps></sps>
 </parameters>
-<piai>COM8</piai>
+<piai>COM3</piai>
 <pian>Serial Port</pian>
-<pihpn>COM8</pihpn>
+<pihpn>COM3</pihpn>
 </device>
 </port_devices>
 <rdl>
@@ -547,7 +547,7 @@
 <device>
 <device_type>3</device_type>
 <dx_device_type>0</dx_device_type>
-<name>Standard PS/2 Keyboard</name>
+<name>HID Keyboard Device</name>
 </device>
 <device>
 <abs_axis>
@@ -592,63 +592,9 @@
 <name>HID-compliant mouse</name>
 </device>
 <device>
-<abs_axis>
-<dead_zone>0</dead_zone>
-<max>1000</max>
-<min>-1000</min>
-<name>X-axis</name>
-<saturation>1</saturation>
-</abs_axis>
-<abs_axis>
-<dead_zone>0</dead_zone>
-<max>1000</max>
-<min>-1000</min>
-<name>Y-axis</name>
-<saturation>1</saturation>
-</abs_axis>
-<axis>
-<max>1000</max>
-<min>-1000</min>
-<name>X-axis</name>
-<restricted>1</restricted>
-<scale>1</scale>
-</axis>
-<axis>
-<max>1000</max>
-<min>-1000</min>
-<name>Y-axis</name>
-<restricted>1</restricted>
-<scale>1</scale>
-</axis>
-<axis>
-<max>1000</max>
-<min>-1000</min>
-<name>Wheel</name>
-<restricted>1</restricted>
-<scale>1</scale>
-</axis>
-<device_type>2</device_type>
-<dx_device_type>0</dx_device_type>
-<max_raw_pos>65535</max_raw_pos>
-<min_raw_pos>0</min_raw_pos>
-<name>ThinkPad UltraNav Pointing Device</name>
-</device>
-<device>
 <device_type>9</device_type>
 <dx_device_type>0</dx_device_type>
 <name>sound device</name>
-</device>
-<device>
-<device_type>13</device_type>
-<dx_device_type>0</dx_device_type>
-<name>Speech Recognition</name>
-<speech>
-<engine_class></engine_class>
-<mc>0</mc>
-<rw>0</rw>
-<uwd>0</uwd>
-<vocab></vocab>
-</speech>
 </device>
 <device>
 <axis>
@@ -713,22 +659,6 @@
 <ibn>N</ibn>
 <ibn>M</ibn>
 <idn>Keyboard</idn>
-<index>0</index>
-<index>1</index>
-<index>2</index>
-<index>3</index>
-<index>4</index>
-<index>5</index>
-<index>6</index>
-<index>7</index>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
 <offset>28</offset>
 <offset>44</offset>
 <offset>45</offset>
@@ -753,22 +683,6 @@
 <ibn>M</ibn>
 <ibn>,</ibn>
 <idn>Keyboard</idn>
-<index>0</index>
-<index>1</index>
-<index>2</index>
-<index>3</index>
-<index>4</index>
-<index>5</index>
-<index>6</index>
-<index>7</index>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
-<label></label>
 <offset>28</offset>
 <offset>45</offset>
 <offset>46</offset>
@@ -778,7 +692,7 @@
 <offset>50</offset>
 <offset>51</offset>
 </idv>
-<sfn>C:\Users\lab-user\Desktop\Anne\Entrainment.sce</sfn>
+<sfn>D:\Users\Chris\SurfDrive\Development_back_up\presentation\anne-van-leeuwen\PRESENTATION-Entrainment-Anne-van-Leeuwen\Entrainment.sce</sfn>
 </sce>
 <sct>
 <capture_device>
@@ -796,7 +710,6 @@
 <resp_dev>
 <combine>0</combine>
 <ignore>1000</ignore>
-<max_rec_dur>10</max_rec_dur>
 <off_inter>200</off_inter>
 <off_thresh>0.02</off_thresh>
 <onset_mode>0</onset_mode>
@@ -809,17 +722,13 @@
 <buffer_length>1000</buffer_length>
 <custom_buf>sec_sw</custom_buf>
 <dup_channels>0</dup_channels>
-<ex_period>0</ex_period>
-<halt_on_drop>0</halt_on_drop>
-<halt_on_drop_count>1</halt_on_drop_count>
 <halt_on_underrun>1</halt_on_underrun>
+<hw_buffer>0</hw_buffer>
 <max_mix_length>50</max_mix_length>
 <min_mix_length>25</min_mix_length>
 <mixer>custom</mixer>
 <rewind_distance>10</rewind_distance>
-<sh_period>0</sh_period>
 <side_speakers>1</side_speakers>
-<use_rewind_distance>0</use_rewind_distance>
 </sde>
 <sdv>Primary Sound Driver</sdv>
 <show_dis>0</show_dis>
