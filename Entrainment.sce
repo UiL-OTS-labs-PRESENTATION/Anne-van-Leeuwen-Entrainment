@@ -208,14 +208,12 @@ trial{
 trial{
 	trial_duration = stimuli_length;
 	trial_type = fixed;
-	trial_duration = 8000;
 	stimulus_event {
 		picture pic1;
 		duration = 8000; 
 		code = "pauze_1of2";
 		deltat = 0;
 		response_active = false;
-		duration = next_picture;
 	} event_pauze_picture;
 } trial_pauze_picture;
 

@@ -118,15 +118,18 @@ end;
 sub
 	parse_full_line(input_file& file, int index)
 begin
-	DIALOGUE_NUMBER.add(file.get_int());
+	PLAY_NR.add(file.get_int());
 	WAVNAME.add(file.get_string());
 	EXPERIMENT_CODE.add(file.get_int());
 	DIALOGUE_TYPE.add(file.get_int());
 	TRIAL_NUMBER.add(file.get_int());
+	
 	CODE_CONDITION_SEND.add(file.get_int());
 	CODE_OVERLAP_SEND.add(file.get_int());
+	
 	CODE_BLOCK.add(file.get_int());
-	CODE_ITEM.add(file.get_int());
+	CODE_DIALOGUE.add(file.get_int());
+
 	CODE_TEMPO.add(file.get_int());
 	CODE_CONDITION.add(file.get_int());
 	CODE_OVERLAP.add(file.get_int());
@@ -184,20 +187,31 @@ end;
 sub
 	shuffle_graphic_settings
 begin
-	if (GRAPHICAL_SETTINGS.count() % 2 != 0) then
+	int number_of_entries_per_trial = 2;
+	
+	if (GRAPHICAL_SETTINGS.count() % number_of_entries_per_trial != 0) then
 		term.print(GRAPHICAL_SETTINGS.count());
 		term.print(GRAPHICAL_SETTINGS);
-		exit("Graphic settings did not form expected duplets! Check the count ("+ string(GRAPHICAL_SETTINGS.count()) + ")!");
+		exit("Graphic settings did not form expected duplets (" + string(number_of_entries_per_trial) + ")! Check the count ("+ string(GRAPHICAL_SETTINGS.count()) + ")!");
 	end;
 	
-	int number_of_duplets = GRAPHICAL_SETTINGS.count()/2;
+	int number_of_duplets = GRAPHICAL_SETTINGS.count()/number_of_entries_per_trial;
 	
-	loop int duplet_index = 1 until duplet_index ==  number_of_duplets begin
-		int source_duplet_index = duplet_index * 2 - 1;
-		int target_duplet = random(1,number_of_duplets);
-		int target_duplet_index = target_duplet * 2 - 1;
+	int start_duplet_index = 1;
+	loop int index = start_duplet_index; until index > EXPERIMENT_CODE.count() begin
+		if(EXPERIMENT_CODE[index] == 1) then
+			start_duplet_index = (index/number_of_entries_per_trial)+1; #Code is meant to refer to the LAST practice trial so we need to shuffle from the one after that.
+			break;
+		end;
+		index = index + 1;
+	end;
+	
+	loop int duplet_index = start_duplet_index until duplet_index >  number_of_duplets begin
+		int source_duplet_index = duplet_index * number_of_entries_per_trial - 1;
+		int target_duplet = random(start_duplet_index,number_of_duplets);
+		int target_duplet_index = target_duplet * number_of_entries_per_trial - 1;
 		
-		array <int> temp[2][2][2];
+		array <int> temp[number_of_entries_per_trial][2][2];
 		temp[1] = GRAPHICAL_SETTINGS[target_duplet_index];
 		temp[2] = GRAPHICAL_SETTINGS[target_duplet_index+1];
 		
@@ -231,7 +245,8 @@ sub
 begin
 	picture graphic = create_visual_presentation_picture(READY_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	graphic_ready_event_0.set_stimulus(graphic);				# set the ready picture - start
-	set_trigger_code(graphic_ready_event_0,DIALOGUE_NUMBER[i_trial]);
+	
+	set_trigger_code(graphic_ready_event_0,CODE_DIALOGUE[i_trial]);
 	
 	graphic = create_visual_presentation_picture(ACTIVE_COLOR, READY_COLOR, GRAPHICAL_SETTINGS[i_trial]);
 	graphic_active_event_0.set_stimulus(graphic);								# set picture first active dialogue - self-paced
