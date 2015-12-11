@@ -10,7 +10,7 @@ array <int> CODE_DIALOGUE[0];
 array <int> CODE_TEMPO[0];
 array <int> CODE_CONDITION[0];
 array <int> CODE_OVERLAP[0];
-array <int> GRAPHICAL_SETTINGS[0][2][2];
+array <int> GRAPHICAL_SETTINGS[0][2][2]; # D1: Index D2: left + right percentage of LEFT box D3: left + right percentage of RGHT box
 
 int STIMULUS_LIST = parameter_manager.get_int("Stimulus List");
 string STIMULUS_LIST_FILENAME = "list" + string(STIMULUS_LIST) + ".txt";
