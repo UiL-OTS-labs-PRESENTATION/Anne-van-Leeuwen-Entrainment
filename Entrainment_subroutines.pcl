@@ -259,7 +259,6 @@ begin
 	set_trigger_code(audio_play_delayed_event_0, CODE_CONDITION[i_trial]);
 	
 	int audio_finish_time = audio_item_0.duration() - CODE_CONDITION_SEND[i_trial];
-	audio_finish_time = audio_finish_time + 100;
 	
 	audio_finish_event_0.set_deltat(audio_finish_time);
 	set_trigger_code(audio_finish_event_0, CODE_OVERLAP[i_trial]);
@@ -286,7 +285,6 @@ begin
 	set_trigger_code(audio_play_delayed_event_1, CODE_CONDITION[i_trial]);
 	
 	int audio_finish_time = audio_item_1.duration() - CODE_CONDITION_SEND[i_trial];
-	audio_finish_time = audio_finish_time + 100;
 	
 	audio_finish_event_1.set_deltat(audio_finish_time);
 	set_trigger_code(audio_finish_event_1, CODE_OVERLAP[i_trial]);
