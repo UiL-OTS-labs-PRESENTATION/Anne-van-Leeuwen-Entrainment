@@ -145,6 +145,12 @@
 </dat>
 <id>13</id>
 </val>
+<val>
+<dat>
+<val>254</val>
+</dat>
+<id>14</id>
+</val>
 </sd>
 <sid>-1</sid>
 </ss>
@@ -185,6 +191,7 @@
 <pid>11</pid>
 <pid>12</pid>
 <pid>13</pid>
+<pid>14</pid>
 </pl>
 </grp>
 </grps>
@@ -310,7 +317,7 @@
 <edit>1</edit>
 <name>Stimulus List</name>
 <set>
-<rest>[1,10]</rest>
+<rest>[1,12]</rest>
 </set>
 <temp>1</temp>
 <type>int</type>
@@ -381,6 +388,20 @@
 <name>Trial End Trigger</name>
 <set>
 <rest>[ 1, 255 ]</rest>
+</set>
+<temp>0</temp>
+<type>int</type>
+<vis>1</vis>
+</set>
+</parm>
+<parm>
+<id>14</id>
+<set>
+<desc></desc>
+<edit>1</edit>
+<name>END_PRACTICE_TRIGGER</name>
+<set>
+<rest></rest>
 </set>
 <temp>0</temp>
 <type>int</type>
