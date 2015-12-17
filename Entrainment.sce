@@ -334,6 +334,9 @@ trial {
 	code = "eindeoefening";
 	target_button = 1;
 	response_active = true;
+	code = EXPARAM( "END_PRACTICE_TRIGGER" : 254);
+	port_code = EXPARAM( "END_PRACTICE_TRIGGER" : 254);
+	
 } endpractice;
 
 # Begin of Testitems
