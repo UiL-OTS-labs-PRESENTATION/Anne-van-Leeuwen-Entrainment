@@ -307,13 +307,15 @@ begin
 	blank_trial.present();
 end;
 
+int GENERAL_PAUSE_COUNTER = 1;
 sub
-	int select_pause_figure_index(int i_trial)
+	int select_pause_figure_index
 begin
-		int selected_pause_figure_index = i_trial % pauzes_figures.count();
+		int selected_pause_figure_index = GENERAL_PAUSE_COUNTER % pauzes_figures.count();
 		if(selected_pause_figure_index == 0) then
 			selected_pause_figure_index = pauzes_figures.count()
 		end;
+		GENERAL_PAUSE_COUNTER = GENERAL_PAUSE_COUNTER + 1;
 		return selected_pause_figure_index;
 end;
 	

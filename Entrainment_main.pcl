@@ -58,7 +58,7 @@ begin
 		
 	if (EXPERIMENT_CODE[i_trial] == 3) then
 		term.print_line("[EXPERIMENT_CODE == 3] ... Starting small pause");
-		event_pauze_picture.set_stimulus(pauzes_figures[select_pause_figure_index(i_trial)]);				# set the stimulus of the trial		
+		event_pauze_picture.set_stimulus(pauzes_figures[select_pause_figure_index()]);				# set the stimulus of the trial		
 		trial_pauze_picture.present();
 		trial_pauze_text.present();
 		pay_attention.present();
